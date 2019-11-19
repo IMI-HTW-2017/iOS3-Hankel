@@ -6,7 +6,8 @@
 //  Copyright © 2019 Luis Hankel. All rights reserved.
 //
 
-let addressBook = AddressBook.addressBook(fromFile: "book.plist") ?? AddressBook()
+let filePath = "book.plist"
+let addressBook = AddressBook.addressBook(fromFile: filePath) ?? AddressBook()
 var selectedCard: AddressCard? = nil
 
 func read(withPrompt prompt: String) -> String {
@@ -109,3 +110,5 @@ while running {
         }
     }
 }
+
+addressBook.save(toFile: filePath)
