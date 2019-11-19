@@ -8,15 +8,11 @@
 
 import Foundation
 
-class AddressBook {
+class AddressBook: Codable {
     var cards: [AddressCard]
     
-    init(cards: [AddressCard]) {
-        self.cards = cards
-    }
-    
-    convenience init() {
-        self.init(cards: [])
+    init () {
+        cards = []
     }
     
     func add(card: AddressCard) {
@@ -48,7 +44,7 @@ class AddressBook {
     func save(toFile path: String) {
         let url = URL(fileURLWithPath: path)
         let encoder = PropertyListEncoder()
-        if let data = try? encoder.encode(cards) {
+        if let data = try? encoder.encode(self) {
             try? data.write(to: url)
         }
     }
@@ -57,8 +53,8 @@ class AddressBook {
         let url = URL(fileURLWithPath: path)
         if let data = try? Data(contentsOf: url) {
             let decoder = PropertyListDecoder()
-            if let addressBook = try? decoder.decode([AddressCard].self, from: data) {
-                return AddressBook(cards: addressBook)
+            if let addressBook = try? decoder.decode(AddressBook.self, from: data) {
+                return addressBook
             }
         }
         return nil
